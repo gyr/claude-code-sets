@@ -1,6 +1,6 @@
-# Claude Code Squad - TDD Development Environment
+# Personal Development Standards
 
-This project follows Test-Driven Development (TDD) and professional software engineering practices using Claude Code's official features: Skills, Subagents, and structured context management.
+Professional software engineering practices using Claude Code's official features: Skills, Subagents, and structured context management.
 
 ## Core Development Philosophy
 
@@ -16,11 +16,13 @@ This project follows Test-Driven Development (TDD) and professional software eng
 
 ## Code Style & Standards
 
-- **Naming**: Use clear, descriptive names for functions, variables, and classes
-- **Functions**: Keep functions small and focused on a single responsibility
-- **Comments**: Write comments explaining WHY, not WHAT (code should be self-documenting)
-- **DRY Principle**: Don't Repeat Yourself - extract common patterns into reusable functions
-- **Error Handling**: Always handle errors explicitly, never silently catch and ignore
+- **Naming**: Clear, descriptive (e.g., `isUserAuthenticated` not `check`)
+- **Functions**: Small, single responsibility; early returns over deep nesting
+- **Comments**: Explain WHY, not WHAT (code self-documents)
+- **DRY**: Extract common patterns into reusable functions
+- **Error Handling**: Explicit; catch specific errors; early returns over nested try-catch
+- **Type Safety**: Maximize type coverage; avoid `any`/dynamic types without justification
+- **Dependencies**: Prefer stdlib over 3rd-party when sufficient; use widely-adopted libs when needed
 
 ## Test-Driven Development (TDD) Workflow
 
@@ -42,39 +44,11 @@ This project follows Test-Driven Development (TDD) and professional software eng
    - Optimize performance if needed
    - Tests must stay green throughout refactoring
 
-**Testing Commands:**
-```bash
-# Run all tests (use sparingly, prefer focused tests)
-pytest
-
-# Run specific test file (preferred for faster feedback)
-pytest tests/test_specific.py
-
-# Run single test function (best for TDD workflow)
-pytest tests/test_specific.py::test_function_name
-
-# Run with coverage report
-pytest --cov=src --cov-report=term-missing
-```
-
-## Build & Development Commands
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run linter
-flake8 src/ tests/
-
-# Format code
-black src/ tests/
-
-# Type checking (if using type hints)
-mypy src/
-
-# Run the application
-python -m src.main
-```
+**Testing Best Practices:**
+- Run focused tests during TDD cycle (single test or test file)
+- Run full test suite before commits
+- Generate coverage reports to identify untested code paths
+- Use project-specific test commands (see project CLAUDE.md)
 
 ## Architecture Principles
 
@@ -86,11 +60,11 @@ python -m src.main
 
 ## Security Standards
 
-- **No Hardcoded Secrets**: Use environment variables or `.env` files (never commit `.env`)
+- **No Hardcoded Secrets**: Use environment variables or config files (never commit secrets)
 - **Input Validation**: Always validate and sanitize user input
 - **SQL Injection Prevention**: Use parameterized queries, never string concatenation
 - **XSS Prevention**: Escape output, validate input
-- **Command Injection**: Never use `shell=True` in subprocess calls; use argument lists
+- **Command Injection**: Avoid shell execution with user input; use language-specific safe APIs
 
 ## Git Workflow
 
@@ -106,38 +80,39 @@ python -m src.main
 - Example: `feat(auth): add OAuth2 login support`
 
 **Before Committing:**
-1. Run tests: `pytest`
-2. Run linter: `flake8 src/ tests/`
-3. Format code: `black src/ tests/`
+1. Run tests
+2. Run linter
+3. Format code
 4. Verify staged changes: `git diff --staged`
 
 ## Performance Guidelines
 
 - **Algorithmic Efficiency**: Target O(1), O(log n), or O(n) complexity
-- **Avoid Nested Loops**: Use dictionaries/sets for O(1) lookups instead of O(n) list scans
-- **Lazy Loading**: Use generators for large datasets
-- **Profiling**: Use `cProfile` to identify bottlenecks before optimizing
+- **Avoid Nested Loops**: Use hash tables/sets for O(1) lookups instead of O(n) scans
+- **Lazy Loading**: Use lazy evaluation for large datasets
+- **Profiling**: Use language-specific profilers to identify bottlenecks before optimizing
 - **Optimization Rule**: Don't optimize without profiling data
 
 ## Documentation Standards
 
-- **Public APIs**: Document all public functions with docstrings
+- **Public APIs**: Document all public functions with docstrings/comments
 - **Complex Logic**: Add comments explaining non-obvious decisions
 - **ADRs**: Maintain Architecture Decision Records in `docs/adr/`
 - **README**: Keep README.md up to date with setup instructions
 
 ## Skills Available
 
-This project uses Claude Code Skills for common workflows:
+These personal skills work across all projects:
 
 - `/tdd` - Execute Red-Green-Refactor TDD cycle
 - `/code-review` - Perform thorough code review
 - `/security-audit` - Security vulnerability scan
 - `/performance-check` - Analyze algorithmic complexity and performance
 - `/plan-architecture` - Design system architecture
-- `/git-best-practices` - Git workflow best practices
 
 Invoke skills with `/skill-name` or let Claude use them automatically when relevant.
+
+Project-specific skills may be defined in `.claude/skills/` within individual projects.
 
 ## Context Management
 
@@ -146,11 +121,8 @@ Invoke skills with `/skill-name` or let Claude use them automatically when relev
 - Use `/context` to check context usage
 - Use `/clear` between unrelated tasks
 - Use `/compact focus on X` to manually compact with preservation
-- Put persistent rules in this CLAUDE.md file, not in conversation
+- Put persistent rules in CLAUDE.md files, not in conversation
 - Use subagents for research that would read many files (invoke with `"Use an Explore subagent to [task]"`)
-
-See `CONTEXT_MANAGEMENT_GUIDE.md` for detailed guidance.
-See `TOKEN_OPTIMIZATION_GUIDE.md` for how to invoke subagents and reduce token usage.
 
 ## Compact Instructions
 
