@@ -1,18 +1,32 @@
 # Personal Development Standards
 
-Professional software engineering practices using Claude Code's official features: Skills, Subagents, and structured context management.
+Pro software engineering practices using Claude Code official features: Skills, Subagents, structured context management.
+
+## Scope and Application
+
+**This document defines DEFAULT behavior, not optional reference material.**
+
+**When these standards apply:**
+- **MANDATORY for:** New features, refactoring, bug fixes, performance work, security changes
+- **RELAXED for:** Trivial typo fixes, comment-only changes, documentation updates
+- **Default rule:** If scope unclear, follow these standards
+
+**Enforcement:**
+- Follow these standards WITHOUT waiting for explicit "follow CLAUDE.md" prompt
+- Standards are standing instructions, not on-demand guidance
+- Only deviate when user explicitly requests different approach
 
 ## Core Development Philosophy
 
-**These principles override all other considerations:**
+**Principles override all other considerations:**
 
-1. **Test-Driven Development** - Write tests first, always. Never write production code without a failing test.
+1. **Test-Driven Development** - Write tests first, always. Never write production code without failing test.
 
-2. **Systematic over ad-hoc** - Follow process, measure, verify. Never guess or assume. Use profiling data, run tests, check metrics. "It should work" is not acceptable without evidence.
+2. **Systematic over ad-hoc** - Follow process, measure, verify. Never guess or assume. Use profiling data, run tests, check metrics. "It should work" not acceptable without evidence.
 
-3. **Simplicity as PRIMARY goal** - Prefer simple over clever. Remove complexity before adding features. Three similar lines beats premature abstraction. Reject solutions that add indirection without proven need.
+3. **Simplicity as PRIMARY goal** - Prefer simple over clever. Remove complexity before adding features. Three similar lines beat premature abstraction. Reject solutions that add indirection without proven need.
 
-4. **Evidence over claims** - Verify with tests/profiling/data before declaring success. No "should work" without proof. Run the code. Check the output. Measure the result.
+4. **Evidence over claims** - Verify with tests/profiling/data before declaring success. No "should work" without proof. Run code. Check output. Measure result.
 
 ## Code Style & Standards
 
@@ -26,17 +40,17 @@ Professional software engineering practices using Claude Code's official feature
 
 ## Test-Driven Development (TDD) Workflow
 
-**ALWAYS follow the Red-Green-Refactor cycle:**
+**ALWAYS follow Red-Green-Refactor cycle:**
 
-1. **RED Phase** - Write a failing test first
-   - Test must fail for the right reason (feature doesn't exist yet)
-   - Run the test to confirm it fails
-   - Never write production code without a failing test
+1. **RED Phase** - Write failing test first
+   - Test must fail for right reason (feature not exist yet)
+   - Run test to confirm fails
+   - Never write production code without failing test
 
-2. **GREEN Phase** - Write minimal code to pass the test
-   - Implement just enough to make the test pass
-   - Don't add features not covered by tests
-   - Run tests to verify they pass
+2. **GREEN Phase** - Write minimal code to pass test
+   - Implement just enough to make test pass
+   - No features not covered by tests
+   - Run tests to verify pass
 
 3. **REFACTOR Phase** - Improve code quality while keeping tests green
    - Clean up duplication
@@ -55,7 +69,7 @@ Professional software engineering practices using Claude Code's official feature
 - **SOLID Principles**: Follow Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
 - **Composition over Inheritance**: Prefer composing objects over class inheritance
 - **Explicit over Implicit**: Make dependencies and behavior explicit in code
-- **Separation of Concerns**: Keep business logic, data access, and presentation separate
+- **Separation of Concerns**: Keep business logic, data access, presentation separate
 - **Contract-First Design**: Define interfaces before implementation
 
 ## Security Standards
@@ -91,7 +105,7 @@ Professional software engineering practices using Claude Code's official feature
 - **Avoid Nested Loops**: Use hash tables/sets for O(1) lookups instead of O(n) scans
 - **Lazy Loading**: Use lazy evaluation for large datasets
 - **Profiling**: Use language-specific profilers to identify bottlenecks before optimizing
-- **Optimization Rule**: Don't optimize without profiling data
+- **Optimization Rule**: No optimize without profiling data
 
 ## Documentation Standards
 
@@ -100,36 +114,19 @@ Professional software engineering practices using Claude Code's official feature
 - **ADRs**: Maintain Architecture Decision Records in `docs/adr/`
 - **README**: Keep README.md up to date with setup instructions
 
-## Skills Available
+## Required Skills Usage
 
-These personal skills work across all projects:
+**Must use these skills when applicable** - they enforce best practices:
 
-- `/tdd` - Execute Red-Green-Refactor TDD cycle
-- `/code-review` - Perform thorough code review
-- `/security-audit` - Security vulnerability scan
-- `/performance-check` - Analyze algorithmic complexity and performance
-- `/plan-architecture` - Design system architecture
+- `/tdd` - Execute Red-Green-Refactor TDD cycle (required for new features/bug fixes)
+- `/code-review` - Perform thorough code review (required before commits)
+- `/security-audit` - Security vulnerability scan (required for auth/input handling/sensitive data)
+- `/performance-check` - Analyze algorithmic complexity and performance (required for optimization work)
+- `/plan-architecture` - Design system architecture (required for major features/refactors)
 
-Invoke skills with `/skill-name` or let Claude use them automatically when relevant.
+**When to use:**
+- Use proactively when task matches skill domain
+- Don't wait for explicit request - invoke when adds value
+- Invoke with `/skill-name` or let Claude auto-trigger
 
 Project-specific skills may be defined in `.claude/skills/` within individual projects.
-
-## Context Management
-
-**Important**: Claude Code's context window fills during long sessions. To maintain quality:
-
-- Use `/context` to check context usage
-- Use `/clear` between unrelated tasks
-- Use `/compact focus on X` to manually compact with preservation
-- Put persistent rules in CLAUDE.md files, not in conversation
-- Use subagents for research that would read many files (invoke with `"Use an Explore subagent to [task]"`)
-
-## Compact Instructions
-
-When auto-compaction triggers, preserve:
-- List of all modified files with their paths
-- Test commands that were run
-- Architecture decisions made during the session
-- Security considerations identified
-- Performance optimization decisions
-- Any failing tests and their error messages

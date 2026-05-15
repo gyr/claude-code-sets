@@ -29,6 +29,9 @@ claude
 ### 2. First Steps
 
 ```bash
+# First session - enforce CLAUDE.md standards
+Check memory for session-start requirements and confirm ready
+
 # Check what's configured
 /skills       # Browse available skills
 /context      # Check context usage
@@ -148,7 +151,12 @@ Design OAuth login integration
 ### CLAUDE.md Structure
 
 ```markdown
-# Claude Code Squad - TDD Development Environment
+# Personal Development Standards
+
+## Scope and Application
+- When standards mandatory (features, refactors, fixes)
+- When relaxed (trivial changes, docs)
+- Enforcement rules (default behavior, not optional)
 
 ## Code Style & Standards
 - Naming conventions
@@ -174,8 +182,8 @@ Design OAuth login integration
 - Branch naming
 - Commit message format
 
-## Compact Instructions
-- What to preserve during auto-compaction
+## Required Skills Usage
+- When to use skills proactively
 ```
 
 ### Skills Structure
@@ -206,6 +214,7 @@ Each skill has:
 
 | Guide | Purpose | When to Read |
 |:------|:--------|:-------------|
+| **SESSION_START_WORKFLOW.md** | Enforce CLAUDE.md at session start | First session in new project |
 | **USAGE_GUIDE.md** | When to use Skills vs Subagents vs Commands | First (essential) |
 | **CONTEXT_MANAGEMENT_GUIDE.md** | How to prevent context rot | Second (essential) |
 | **TOKEN_OPTIMIZATION_GUIDE.md** | Reduce token usage, how to invoke subagents | Third (essential) |

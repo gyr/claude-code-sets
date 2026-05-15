@@ -1,8 +1,8 @@
 # Claude Code Squad - TDD Development Environment
 
-Python project following Test-Driven Development (TDD) and professional software engineering practices.
+Python project follow TDD + pro software engineering practice.
 
-**Note**: General development standards are in `~/.claude/CLAUDE.md`. This file contains Python-specific project configuration.
+**Note**: General dev standards in `~/.claude/CLAUDE.md`. This file = Python-specific config. Same scope rules apply.
 
 ## Python Testing Commands
 ```bash
@@ -68,9 +68,3 @@ uv run python -m src.main
 **Performance:**
 - `cProfile` for bottlenecks
 - dict/set lookups O(1) over list scans O(n)
-
-## Project Documentation
-
-- `CONTEXT_MANAGEMENT_GUIDE.md` - Context window management strategies
-- `TOKEN_OPTIMIZATION_GUIDE.md` - Subagent usage and token optimization
-- `docs/adr/` - Architecture Decision Records
