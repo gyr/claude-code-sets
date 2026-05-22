@@ -7,7 +7,7 @@ This project provides a complete, officially-compliant Claude Code configuration
 ## 🎯 What This Provides
 
 ✅ **CLAUDE.md** - Persistent project context (TDD rules, code style, build commands)  
-✅ **5 Professional Skills** - TDD, Code Review, Security Audit, Performance, Architecture  
+✅ **9 Professional Skills** - TDD, Code Review, Security, Performance, Architecture, Dev Workflow, Caveman modes  
 ✅ **Context Management** - Official strategies to prevent context rot  
 ✅ **Usage Guides** - When to use Skills vs Subagents vs /clear  
 ✅ **No Custom Agents** - Uses built-in Explore, Plan, general-purpose agents
@@ -123,6 +123,59 @@ Architecture planning with SOLID principles:
 Design OAuth login integration
 ```
 
+### `/dev-workflow` - Complete Development Workflow
+
+End-to-end development workflow from TDD to commit:
+- Runs /tdd for implementation
+- Runs /code-review for quality
+- Runs /security-audit if needed (auth/input/sensitive data)
+- Runs /performance-check if needed (performance-critical)
+- Prepares git commit (tests → lint → format → staged files)
+
+**Usage:**
+```
+/dev-workflow
+# Executes complete workflow, shows commit message at end
+```
+
+### `/caveman-micro` - Ultra-Concise Response Mode
+
+Single-response concise mode:
+- Drops filler words, articles, pleasantries
+- Uses fragments, keeps technical accuracy
+- Pattern: [thing] [action] [reason]
+
+**Usage:**
+```
+/caveman-micro explain git rebase
+```
+
+### `/caveman-on` - Enable Concise Mode
+
+Toggle concise responses for entire session:
+- Activates caveman-style responses
+- Persists until `/caveman-off`
+- Reduces token usage
+
+**Usage:**
+```
+/caveman-on
+# All responses now concise
+```
+
+### `/caveman-off` - Disable Concise Mode
+
+Return to normal response style:
+- Deactivates caveman mode
+- Restores complete sentences
+- Professional tone resumes
+
+**Usage:**
+```
+/caveman-off
+# Normal responses resume
+```
+
 ## 🎓 Learning Path
 
 ### For Beginners
@@ -198,7 +251,15 @@ skills/
 │   └── SKILL.md
 ├── performance-check/
 │   └── SKILL.md
-└── plan-architecture/
+├── plan-architecture/
+│   └── SKILL.md
+├── dev-workflow/
+│   └── SKILL.md
+├── caveman-micro/
+│   └── SKILL.md
+├── caveman-on/
+│   └── SKILL.md
+└── caveman-off/
     └── SKILL.md
 ```
 
