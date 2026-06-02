@@ -1,601 +1,256 @@
-# Claude Code Professional Development Squad
+# Claude Code — Professional Development Setup
 
-**A production-ready setup following official Anthropic guidelines for professional AI-assisted development**
+A project-scoped Claude Code configuration that turns the assistant into a disciplined development team: TDD enforced, code reviewed with fresh eyes, security audited against OWASP, performance optimized only with profiling data, and architecture planned contract-first.
 
-This project provides a complete, officially-compliant Claude Code configuration with Skills, proper context management, and TDD workflows. Perfect for developers moving beyond basic Claude Code chat to professional, structured AI-assisted development.
+Everything lives under `.claude/` and is committed to the repo so the same standards apply to every collaborator and every session.
 
-## 🎯 What This Provides
+---
 
-✅ **CLAUDE.md** - Persistent project context (TDD rules, code style, build commands)  
-✅ **9 Professional Skills** - TDD, Code Review, Security, Performance, Architecture, Dev Workflow, Caveman modes  
-✅ **Context Management** - Official strategies to prevent context rot  
-✅ **Usage Guides** - When to use Skills vs Subagents vs /clear  
-✅ **No Custom Agents** - Uses built-in Explore, Plan, general-purpose agents
+## What is `.claude/`?
 
-## 🚀 Quick Start
+`.claude/` is the Claude Code configuration directory. When `claude` starts in this project it automatically reads everything inside.
 
-### 1. Installation
+```
+.claude/
+├── CLAUDE.md              # Project standards — loaded into every session
+├── agents/                # Specialist personas — invoked via @name
+│   ├── architect.md
+│   ├── code-reviewer.md
+│   ├── performance-analyst.md
+│   ├── security-auditor.md
+│   └── tdd-coach.md
+└── skills/                # Atomic helpers — invoked via /name
+    ├── get-diff/SKILL.md
+    ├── run-tests/SKILL.md
+    ├── run-linter/SKILL.md
+    ├── run-formatter/SKILL.md
+    ├── run-typecheck/SKILL.md
+    ├── check-secrets/SKILL.md
+    ├── check-deps-cve/SKILL.md
+    ├── check-coverage/SKILL.md
+    ├── caveman-on/SKILL.md
+    ├── caveman-off/SKILL.md
+    └── caveman-micro/SKILL.md
+```
 
-This configuration is ready to use:
+---
+
+## What does it provide?
+
+### 1. `CLAUDE.md` — persistent project standards
+
+Loaded into every session. Defines the rules the assistant operates under without you having to repeat them:
+
+- **Honesty hygiene** — no affirmation openers, verify before agreeing, no invented disagreement.
+- **Core principles** — TDD, simplicity, evidence over claims.
+- **Code style** — naming, error handling, type safety, dependency preferences.
+- **Architecture** — SOLID + composition + contract-first design.
+- **Security** — OWASP Top 10 hygiene baseline.
+- **Git workflow** — Conventional Commits, one logical change per commit, bisect-friendly history, pre-commit checklist.
+- **Performance** — no optimization without profiling.
+- **Agents & skills registry** — when to invoke each.
+
+### 2. Five specialist agents (`.claude/agents/`)
+
+Agents are full personas with **isolated context** and **summary return**. Use them when the work calls for a specific expert mindset.
+
+| Agent | Role | When to invoke |
+|:------|:-----|:---------------|
+| `@architect` | Senior Software Architect — read-only, produces `IMPLEMENTATION_PLAN.md` with SOLID contracts, commit boundaries, doc impact | Major features, refactors, anything multi-phase — **before** writing code |
+| `@tdd-coach` | TDD enforcer driving strict Red-Green-Refactor cycles | New features, bug fixes |
+| `@code-reviewer` | Senior Staff Engineer reviewing the diff with fresh eyes — logic, readability, security, perf, tests, commit hygiene | After significant changes, before commits |
+| `@security-auditor` | Cyber Security Specialist auditing against OWASP Top 10 | Auth, input handling, sensitive-data work, security-impacting diffs |
+| `@performance-analyst` | Performance Engineering Specialist — refuses to optimize without baseline profile | Optimization work (with a reproducible workload) |
+
+Each agent has a non-negotiable **rigor clause** that prevents lazy output: the architect must name a real alternative and why it loses; the code-reviewer must enumerate what was checked when reporting zero findings; the security-auditor must justify every APPROVE; the TDD coach must list three inputs that would still break the code; the performance-analyst refuses recommendations without before/after numbers.
+
+### 3. Eight atomic skills (`.claude/skills/`)
+
+Skills are stateless single-purpose helpers run **inline** in the main session. They are the building blocks the agents (and you) compose.
+
+| Skill | What it does |
+|:------|:-------------|
+| `/get-diff` | Diff vs `main` (or `origin/main`) + working-tree status |
+| `/run-tests` | Project test suite — `pytest` → `npm test` → `cargo test` → `go test` (auto-detected) |
+| `/run-linter` | Lint diagnostics — `ruff check` → `flake8` → `eslint` → `clippy` → `go vet` |
+| `/run-formatter` | Apply canonical formatting — `ruff format` → `black` → `prettier` → `gofmt` → `rustfmt` (modifies files) |
+| `/run-typecheck` | Type check — `mypy` → `pyright` → `tsc` |
+| `/check-secrets` | Greps the diff for hardcoded credential patterns (API keys, tokens, PEM blocks) |
+| `/check-deps-cve` | Dependency CVE scan — `pip-audit` / `safety` / `npm audit` / `cargo audit` / `govulncheck` |
+| `/check-coverage` | Coverage report — `pytest --cov` → `jest --coverage` |
+
+Plus three response-mode modifiers:
+
+| Skill | What it does |
+|:------|:-------------|
+| `/caveman-on` | Enable ultra-concise responses for the rest of the session |
+| `/caveman-off` | Return to normal response style |
+| `/caveman-micro` | One-shot concise response without changing session mode |
+
+All atomic skills are **Python-first** (the user's primary stack) and fall back to Node, Rust, and Go automatically.
+
+---
+
+## How does it work?
+
+### Agents vs skills — the split
+
+Both surfaces are loaded on demand; the difference is **context isolation** and **shape of work**.
+
+| | Agents (`@name`) | Skills (`/name`) |
+|:--|:-----------------|:------------------|
+| Context | Separate window, returns a summary | Inline in main session |
+| Work shape | Multi-step reasoning, judgment calls | Single deterministic action |
+| Typical size | Hundreds of lines of instruction + rigor clauses | A single Bash command + framing |
+| Examples | "Review this diff end-to-end", "Plan the auth rewrite" | "Run the linter", "Show the diff" |
+
+Rule of thumb: if the work needs **reasoning across files** or a **specific persona**, use an agent. If the work is a **single check or command**, use a skill.
+
+### How agents use skills
+
+Agents compose atomic skills inside their workflows. For example, `@code-reviewer` runs `/get-diff` first, then `/check-secrets`, `/run-tests`, `/run-linter`, `/run-typecheck`, `/check-coverage` as part of its review pass. You don't run those by hand during a review — the agent does, and you read the consolidated finding list.
+
+### Built-in `/code-review` vs `@code-reviewer`
+
+Claude Code ships a bundled `/code-review` skill for quick reviews. This repo also defines `@code-reviewer` — the agent — for deep reviews with rigor clauses, fresh-eyes framing, and severity-graded output. Use:
+
+- `/code-review` → fast pre-commit gut check
+- `@code-reviewer` → before pushing, before a PR, when something feels off
+
+---
+
+## How to use it
+
+### 1. Start a session
 
 ```bash
-# The setup is already in place
-# CLAUDE.md, skills/, and guides are configured
-
-# Start Claude Code in this directory
+cd /path/to/this/project
 claude
 ```
 
-### 2. First Steps
+`CLAUDE.md` is loaded automatically. Agent and skill descriptions become available.
 
-```bash
-# First session - enforce CLAUDE.md standards
-Check memory for session-start requirements and confirm ready
+### 2. Invoke an agent for substantive work
 
-# Check what's configured
-/skills       # Browse available skills
-/context      # Check context usage
-
-# Try a skill
-/tdd          # Launch TDD workflow
-/code-review  # Review recent changes
+```
+@tdd-coach implement email validation
+@architect design the OAuth integration
+@code-reviewer review the changes on this branch
+@security-auditor audit the new login endpoint
+@performance-analyst the user search is slow with 10k records
 ```
 
-### 3. Read the Guides
+The agent runs in its own context and reports back a summary — your main context stays clean.
 
-**Start here:**
-1. **USAGE_GUIDE.md** - When to use Skills vs Subagents vs Commands
-2. **CONTEXT_MANAGEMENT_GUIDE.md** - How to prevent context rot
-3. **CLAUDE.md** - Project conventions and TDD rules
+### 3. Invoke a skill for an atomic action
 
-## 📚 Skills Available
-
-### `/tdd` - Test-Driven Development
-
-Enforces strict Red-Green-Refactor cycle:
-- Write failing test → minimal code → refactor
-- Prevents production code without tests
-- Adversarial testing mindset
-
-**Usage:**
 ```
-Implement email validation using TDD
-[Automatically uses /tdd skill]
-```
-
-### `/code-review` - Code Quality Audit
-
-Comprehensive review checklist:
-- Logic audit (off-by-one, race conditions)
-- Readability & maintainability
-- Security review
-- Performance analysis
-- Test quality
-
-**Usage:**
-```
-/code-review
-# Or automatically:
-Review my auth changes
-```
-
-### `/security-audit` - Vulnerability Scan
-
-OWASP Top 10 security checks:
-- Injection vulnerabilities (SQL, XSS, command)
-- Hardcoded secrets detection
-- Auth/authorization flaws
-- Crypto weaknesses
-
-**Usage:**
-```
-/security-audit
-# Or:
-Check for security issues in the auth module
-```
-
-### `/performance-check` - Performance Analysis
-
-Data-driven optimization:
-- Algorithmic complexity analysis (Big-O)
-- Profiling-based bottleneck identification
-- Evidence-based optimization suggestions
-- Before/after measurements
-
-**Usage:**
-```
-The search is slow with 10k users
-[Automatically uses performance-check]
-```
-
-### `/plan-architecture` - System Design
-
-Architecture planning with SOLID principles:
-- Contract-first interface design
-- Component dependency mapping
-- Test strategy definition
-- Implementation plan creation
-
-**Usage:**
-```
-/plan-architecture
-# Then describe feature:
-Design OAuth login integration
-```
-
-### `/dev-workflow` - Complete Development Workflow
-
-End-to-end development workflow from TDD to commit:
-- Runs /tdd for implementation
-- Runs /code-review for quality
-- Runs /security-audit if needed (auth/input/sensitive data)
-- Runs /performance-check if needed (performance-critical)
-- Prepares git commit (tests → lint → format → staged files)
-
-**Usage:**
-```
-/dev-workflow
-# Executes complete workflow, shows commit message at end
-```
-
-### `/caveman-micro` - Ultra-Concise Response Mode
-
-Single-response concise mode:
-- Drops filler words, articles, pleasantries
-- Uses fragments, keeps technical accuracy
-- Pattern: [thing] [action] [reason]
-
-**Usage:**
-```
-/caveman-micro explain git rebase
-```
-
-### `/caveman-on` - Enable Concise Mode
-
-Toggle concise responses for entire session:
-- Activates caveman-style responses
-- Persists until `/caveman-off`
-- Reduces token usage
-
-**Usage:**
-```
+/get-diff
+/run-tests
+/run-linter
+/check-secrets
 /caveman-on
-# All responses now concise
 ```
 
-### `/caveman-off` - Disable Concise Mode
+Skills run inline; output appears in the conversation immediately.
 
-Return to normal response style:
-- Deactivates caveman mode
-- Restores complete sentences
-- Professional tone resumes
-
-**Usage:**
-```
-/caveman-off
-# Normal responses resume
-```
-
-## 🎓 Learning Path
-
-### For Beginners
-
-1. **Read USAGE_GUIDE.md** - Understand when to use each feature
-2. **Try one skill** - Start with `/tdd` for a simple feature
-3. **Monitor context** - Use `/context` after every 10 turns
-4. **Practice /clear** - Reset context between unrelated tasks
-
-### For Intermediate Users
-
-1. **Read CONTEXT_MANAGEMENT_GUIDE.md** - Deep dive into context rot prevention
-2. **Use subagents** - Delegate research to keep main context clean
-3. **Customize CLAUDE.md** - Add project-specific rules
-4. **Create custom skills** - Build your own reusable workflows
-
-### For Advanced Users
-
-1. **Optimize workflow** - Combine skills, subagents, and commands (see TOKEN_OPTIMIZATION_GUIDE.md)
-2. **Create custom skills** - Build reusable workflows for your team
-3. **Set up hooks** - Automate checks and validations
-4. **Configure permissions** - Use auto mode for uninterrupted flow
-
-## 🔧 Configuration
-
-### CLAUDE.md Structure
-
-```markdown
-# Personal Development Standards
-
-## Scope and Application
-- When standards mandatory (features, refactors, fixes)
-- When relaxed (trivial changes, docs)
-- Enforcement rules (default behavior, not optional)
-
-## Code Style & Standards
-- Naming conventions
-- Function size guidelines
-- Error handling standards
-
-## Test-Driven Development (TDD) Workflow
-- Red-Green-Refactor cycle
-- Testing commands
-
-## Build & Development Commands
-- Install, lint, format, test commands
-
-## Architecture Principles
-- SOLID principles
-- Design patterns
-
-## Security Standards
-- No hardcoded secrets
-- Input validation rules
-
-## Git Workflow
-- Branch naming
-- Commit message format
-
-## Required Skills Usage
-- When to use skills proactively
-```
-
-### Skills Structure
+### 4. Typical workflow — feature with TDD + review
 
 ```
-skills/
-├── tdd/
-│   └── SKILL.md
-├── code-review/
-│   └── SKILL.md
-├── security-audit/
-│   └── SKILL.md
-├── performance-check/
-│   └── SKILL.md
-├── plan-architecture/
-│   └── SKILL.md
-├── dev-workflow/
-│   └── SKILL.md
-├── caveman-micro/
-│   └── SKILL.md
-├── caveman-on/
-│   └── SKILL.md
-└── caveman-off/
-    └── SKILL.md
+@tdd-coach add password strength validation
+        # drives Red → Green → Refactor; runs /run-tests between phases
+@code-reviewer
+        # fresh-eyes review of the resulting diff
+/run-formatter
+        # canonicalize style
+/check-secrets
+        # final scan before staging
+git add ... && git commit -m "feat(auth): add password strength validation"
 ```
 
-Each skill has:
-- **YAML frontmatter** - name, description, when_to_use
-- **Markdown content** - Step-by-step instructions
-- **Automatic invocation** - Claude uses when relevant
-- **Manual invocation** - `/skill-name`
-
-## 📖 Documentation
-
-### Core Guides
-
-| Guide | Purpose | When to Read |
-|:------|:--------|:-------------|
-| **SESSION_START_WORKFLOW.md** | Enforce CLAUDE.md at session start | First session in new project |
-| **USAGE_GUIDE.md** | When to use Skills vs Subagents vs Commands | First (essential) |
-| **CONTEXT_MANAGEMENT_GUIDE.md** | How to prevent context rot | Second (essential) |
-| **TOKEN_OPTIMIZATION_GUIDE.md** | Reduce token usage, how to invoke subagents | Third (essential) |
-| **MEMORY_MANAGEMENT_GUIDE.md** | Use persistent memory, prevent memory rot | Fourth (before saving to memory) |
-| **DOCUMENTATION_STRATEGY.md** | When to create docs vs work from conversation | Fifth (multi-session projects) |
-| **CLAUDE.md** | Project conventions and TDD rules | Reference |
-
-### Skills Documentation
-
-Each skill contains:
-- Purpose and usage guidelines
-- Step-by-step procedures
-- Best practices
-- Output format expectations
-
-Read the SKILL.md files in `skills/` to understand what each does.
-
-## 🏗️ Architecture
-
-### How It Works Together
+### 5. Typical workflow — major change
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                   Every Session                     │
-│  ┌─────────────┐                                    │
-│  │ CLAUDE.md   │ ← Loaded automatically             │
-│  └─────────────┘   (Persistent rules)               │
-└─────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────┐
-│                  When Needed                        │
-│  ┌─────────────┐                                    │
-│  │ Skills      │ ← Loaded on demand                 │
-│  └─────────────┘   (TDD, review, security, etc.)    │
-└─────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────┐
-│              For Isolated Work                      │
-│  ┌─────────────┐                                    │
-│  │ Subagents   │ ← Separate context window          │
-│  └─────────────┘   (Explore, Plan, general-purpose) │
-└─────────────────────────────────────────────────────┘
+@architect plan the migration from sessions to JWT
+        # produces IMPLEMENTATION_PLAN.md with phases + commit boundaries
+@tdd-coach implement phase 1
+@security-auditor audit phase 1
+@code-reviewer
+git commit ...
+# repeat per phase
 ```
 
-### Context Flow
+---
 
-```
-Session Start:
-├─ Load CLAUDE.md (3KB)
-├─ Load skill descriptions (3KB)
-└─ Available context: 94% (188KB of 200KB)
+## Why this shape?
 
-When /tdd invoked:
-├─ Load TDD skill content (15KB)
-└─ Available context: 86% (173KB of 200KB)
+- **Stateless skills** are cheap to load, easy to compose, and don't pollute the main context. They are the right surface for "run a command, return the output."
+- **Persona agents** carry a non-trivial system prompt with rigor clauses and structured output formats. Putting that in a separate context window prevents the main session from being dominated by review checklists and security taxonomies.
+- **Project-scoped under `.claude/`** means the configuration is versioned with the code. Every collaborator gets the same standards; reviewers can see the standards diff alongside the feature diff.
 
-After 15 turns (context 70%):
-├─ Use /compact or /clear
-└─ Maintain high quality
+---
 
-For research (many file reads):
-├─ Spawn Explore subagent
-├─ Research in separate context
-└─ Main context gets only summary (0.5%)
-```
+## Extending the setup
 
-## 🛠️ Common Workflows
+### Add an agent
 
-### Workflow 1: Implement Feature with TDD
-
-```bash
-# 1. Describe feature
-"Implement email validation using TDD"
-
-# 2. Claude uses /tdd skill automatically
-# - Writes failing test
-# - Implements minimal code
-# - Refactors while tests stay green
-
-# 3. Review security
-/security-audit
-
-# 4. Commit
-git add src/ tests/
-git commit -m "feat(auth): add email validation"
-```
-
-### Workflow 2: Fix Performance Issue
-
-```bash
-# 1. Describe problem
-"User search is slow with 10k users"
-
-# 2. Claude uses /performance-check automatically
-# - Profiles code
-# - Identifies O(n²) bottleneck
-# - Suggests O(n) fix
-# - Measures improvement
-
-# 3. Verify correctness
-pytest tests/test_search.py
-
-# 4. Review changes
-/code-review
-```
-
-### Workflow 3: Plan & Implement Architecture
-
-```bash
-# 1. Plan architecture
-/plan-architecture
-"Design OAuth login integration"
-
-# 2. Claude creates IMPLEMENTATION_PLAN.md
-# - Component structure
-# - Interface definitions
-# - Test strategy
-# - Implementation order
-
-# 3. Review plan, then implement
-"Looks good, implement phase 1 using TDD"
-
-# 4. Claude uses /tdd for implementation
-```
-
-### Workflow 4: Research & Context Management
-
-```bash
-# 1. Research with subagent (keeps main context clean)
-"Use a subagent to find all auth-related files"
-[Subagent reads 50 files in its own context]
-[Returns summary to main context]
-
-# 2. Check context usage
-/context
-# Output: 35% (research summary only, not 50 file reads!)
-
-# 3. Implement based on research
-"Based on that research, add session timeout"
-
-# 4. Between tasks, clear context
-/clear
-```
-
-## 🔄 Context Management
-
-### The 60% Rule
-
-**Best practice:** Compact or clear at 60% context usage, NOT at 90%.
-
-**Why:** At 60%, Claude has full access to all context. Summary is high quality. At 90%, Claude is already working with degraded context.
-
-### Commands
-
-```bash
-/context                        # Check current usage
-/clear                          # Reset between unrelated tasks
-/compact                        # Manual compaction
-/compact <freeform instructions># Tell Claude what to preserve
-/btw <question>                 # Side question (doesn't enter context)
-```
-
-### Monitoring
-
-```bash
-# Set up context in status line
-/statusline
-# Select "Context percentage"
-
-# Now you see:
-┌─────────────────────────────────────┐
-│ Sonnet 4.5 | 73% context | 12:34 PM │
-└─────────────────────────────────────┘
-```
-
-**Color guide:**
-- 🟢 0-50%: Healthy
-- 🟡 50-75%: Monitor
-- 🟠 75-90%: Consider action
-- 🔴 90-100%: Context rot risk
-
-## ❓ FAQ
-
-### Q: Should I always use TDD?
-
-**A:** Use `/tdd` for:
-- New features
-- Bug fixes
-- Critical logic
-
-Skip for:
-- Config changes
-- Documentation
-- Simple one-liners
-
-### Q: When do I use Skills vs Subagents?
-
-**Skills:**
-- Reusable procedures (TDD workflow, review checklist)
-- Load on demand into main context
-
-**Subagents:**
-- Research reading many files
-- Isolated experiments
-- Separate context window
-
-See **USAGE_GUIDE.md** for detailed decision tree.
-
-### Q: What's the difference between Plan Mode and Plan Subagent?
-
-**Plan Mode** (`Shift+Tab` twice):
-- Main session enters planning mode
-- Exploration in main context
-- Interactive approval step
-- Seamless plan→implement in same session
-- Use when context <50%
-
-**Plan Subagent** (`"Use a Plan subagent to..."`):
-- Separate agent in own context
-- Returns summary to main (~2k tokens)
-- Keeps main context clean
-- Use when context >50% or heavy research needed
-
-See **USAGE_GUIDE.md** section "Plan Mode vs Plan Subagent" for detailed comparison with examples.
-
-### Q: How do I prevent context rot?
-
-1. Use `/context` every 10 turns
-2. `/clear` between unrelated tasks
-3. Put persistent rules in CLAUDE.md
-4. Use subagents for high-file-read research
-5. Compact at 60%, not 90%
-
-See **CONTEXT_MANAGEMENT_GUIDE.md** for complete guide.
-
-### Q: Can I create my own skills?
-
-**Yes!** Create `.claude/skills/my-skill/SKILL.md`:
+Create `.claude/agents/<name>.md`:
 
 ```markdown
 ---
-name: my-skill
-description: What it does and when to use
+name: <name>
+description: <one-line summary used to decide when to invoke>
+tools: Read, Grep, Glob, Bash    # least-privilege; add Edit/Write only if needed
+model: inherit
 ---
 
-# Step-by-step instructions
-1. Do this
-2. Then this
+You are <persona>. <Single-sentence mandate>.
+
+## When invoked
+1. ...
+
+## Output format
+...
+
+## Rigor clause (non-negotiable)
+<What the agent must justify before declaring done>
 ```
 
-### Q: What's wrong with my old "agents"?
+Register it in `.claude/CLAUDE.md` under **Required Agents** so the convention spreads.
 
-They weren't actually agents:
-- ❌ No proper frontmatter
-- ❌ Wrong tool names
-- ❌ Loaded always (not on-demand)
-- ❌ Should have been Skills, not agents
+### Add a skill
 
-This refactor fixes all that following official guidelines.
+Create `.claude/skills/<name>/SKILL.md`:
 
-## 📊 What Changed from Old Setup
+```markdown
+---
+description: <one-line summary>
+allowed-tools: Bash
+---
 
-### Before (Your Old Approach)
+## <Section>
 
-```
-❌ 8 "agents" (not actually agents)
-❌ Always loaded (80KB context)
-❌ Sequential pipeline (waterfall)
-❌ Wrong invocation (@agent syntax)
-❌ No context management
-❌ Custom agents overlapping with built-in
+!`<single command or short pipeline>`
+
+Return the output as-is. Do not summarize.
 ```
 
-### After (Official Approach)
+Keep skills atomic — if the description needs "and", split it.
 
-```
-✅ 5 Skills (load on demand)
-✅ 3KB descriptions loaded, 15KB per skill when used
-✅ Flexible workflows (not rigid pipeline)
-✅ Automatic + manual invocation
-✅ Built-in context management
-✅ Uses official Explore, Plan, general-purpose agents
-```
+### Customize standards
 
-## 🎓 Learning Resources
-
-### Official Anthropic Documentation
-
-- [How Claude Code Works](https://code.claude.com/docs/en/how-claude-code-works)
-- [Best Practices](https://code.claude.com/docs/en/best-practices)
-- [Skills Guide](https://code.claude.com/docs/en/skills)
-- [Subagents Guide](https://code.claude.com/docs/en/sub-agents)
-- [Context Engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
-
-### This Project's Guides
-
-1. **USAGE_GUIDE.md** - When to use what
-2. **CONTEXT_MANAGEMENT_GUIDE.md** - Prevent context rot
-3. **CLAUDE.md** - Project conventions
-
-## 🤝 Contributing
-
-Improve this setup:
-
-1. **Add skills** - Create new workflows in `skills/`
-2. **Enhance CLAUDE.md** - Add project-specific rules
-3. **Share learnings** - Document what works for your team
-4. **Report issues** - If something doesn't follow official guidelines
-
-## 📝 License
-
-This configuration is provided as-is for educational purposes. Customize freely for your projects.
+Edit `.claude/CLAUDE.md` to add project-specific deltas (frameworks in use, naming conventions, deployment quirks). The file is intentionally short — keep it that way.
 
 ---
 
-**Ready to get started?**
+## File map
 
-1. Read **USAGE_GUIDE.md**
-2. Try `/tdd` with a simple feature
-3. Monitor context with `/context`
-4. Check **CONTEXT_MANAGEMENT_GUIDE.md** after first session
+| Path | Purpose |
+|:-----|:--------|
+| `.claude/CLAUDE.md` | Project standards loaded into every session |
+| `.claude/agents/*.md` | Specialist personas (`@name`) |
+| `.claude/skills/*/SKILL.md` | Atomic helpers (`/name`) |
+| `CLAUDE.python.md` | Python-specific style notes (reference) |
+| `USAGE_GUIDE.md`, `CONTEXT_MANAGEMENT_GUIDE.md`, etc. | Background guides on Claude Code itself |
 
-**Questions?** All documentation is in this repository. Start with the guides!
+The guide documents at the project root predate this refactor and may reference the old monolithic-skills layout — they are kept as background reading on Claude Code mechanics, not as the source of truth for what this repo provides. The source of truth is this README and `.claude/CLAUDE.md`.
