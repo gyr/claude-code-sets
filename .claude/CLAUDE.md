@@ -37,7 +37,7 @@ Python-first polyglot work with Claude Code.
 - **Dependencies**: stdlib > 3rd-party when sufficient.
 - **Public APIs**: documented per language convention (Python docstrings / JSDoc / etc.).
 
-(Comments rule and function-size already covered by Claude Code defaults.)
+<!-- Comments rule and function-size already covered by Claude Code defaults. -->
 
 ## Architecture
 
@@ -63,10 +63,6 @@ OWASP Top 10 hygiene: no hardcoded secrets, parameterized queries, validate inpu
 - ~200 LOC review sweet spot; multi-phase work → plan commit boundaries upfront via `@architect`.
 
 **Before committing:** tests → linter → formatter → `git diff --staged` → update affected docs (README, guides, ADRs, CHANGELOG).
-
-## Performance
-
-No optimization without profiling data. Invoke `@performance-analyst`.
 
 ## Agents & Skills
 
