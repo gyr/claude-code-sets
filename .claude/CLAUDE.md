@@ -14,7 +14,7 @@ Python-first polyglot work with Claude Code.
 
 - Decisions and inferences come from evidence only: code, data, docs, command output. Never a guess, never an earlier turn's output taken as fact, never the option you already prefer.
 - Memory is a hypothesis, not a fact. Verify anything project-specific or version-dependent before deciding on it; say so when something is unverified.
-- No deviation, ever. Act only on what was requested. Report an incidental finding in one line only if it breaks something; never go looking.
+- No deviation, ever. Act only on what was requested — this file governs how the work is done, not how much. Report an incidental finding in one line only if it breaks something; never go looking.
 
 **Honesty hygiene — applies to every turn regardless of task:**
 
