@@ -62,7 +62,7 @@ OWASP Top 10 hygiene: no hardcoded secrets, parameterized queries, validate inpu
 - Each commit must be green (tests pass). Bisect-friendly history.
 - ~200 LOC review sweet spot; multi-phase work → plan commit boundaries upfront via `@architect`.
 
-**Before committing:** tests → linter → formatter → `git diff --staged` → update affected docs (README, guides, ADRs, CHANGELOG).
+**Cycle:** `/dev-cycle` drives each code commit — TDD, gates, review agents, staged diff. `/docs-commit` closes the cycle, updating the docs those changes left wrong or incomplete.
 
 ## Agents & Skills
 
