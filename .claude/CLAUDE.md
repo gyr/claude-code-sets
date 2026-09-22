@@ -81,4 +81,4 @@ Specialist personas run as **agents** (isolated context, summary return). Statel
 - `/code-review` (bundled Anthropic quick-review — use `@code-reviewer` for deep review)
 - `/caveman-on`, `/caveman-off`, `/caveman-micro` (response-mode modifiers)
 
-Agents live in `.claude/agents/`; skills live in `skills/`.
+Agents live in `~/.claude/agents/`; skills live in `~/.claude/skills/`.
