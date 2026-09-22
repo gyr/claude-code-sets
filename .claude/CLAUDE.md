@@ -26,22 +26,26 @@ Python-first polyglot work with Claude Code.
 ## Core Principles
 
 1. **TDD** — Failing test first for new features and bug fixes. No production code without a failing test.
-2. **Simplicity** — Prefer simple over clever. Three similar lines beat premature abstraction. Remove complexity before adding features.
+2. **Simplicity (KISS · YAGNI · Worse is Better)** — Prefer simple over clever, and a working 80–90% solution today over a "perfect" design later. Build strictly for current requirements: no speculative features, parameters, or extension points. Remove complexity before adding features.
 3. **Evidence over claims** — Verify with tests/profiling/data. "Should work" not acceptable without proof.
 
 ## Code Style (project-specific deltas)
 
 - **Naming**: descriptive — `isUserAuthenticated` not `check`.
-- **Error Handling**: catch specific errors; early returns over nested try-catch.
+- **Error Handling**: fail fast — validate preconditions at function entry and error out immediately on invalid state; no defensive fallback layers masking bad state. Catch specific errors; early returns over nested try-catch.
 - **Type Safety**: maximize coverage; justify any `any`/dynamic types.
 - **Dependencies**: stdlib > 3rd-party when sufficient.
 - **Public APIs**: documented per language convention (Python docstrings / JSDoc / etc.).
 
-(Comments rule, function-size, abstraction restraint already covered by Claude Code defaults.)
+(Comments rule and function-size already covered by Claude Code defaults.)
 
 ## Architecture
 
 SOLID + composition-over-inheritance + contract-first design. Invoke `@architect` for major features or refactors before implementation.
+
+- **Boundary scope (Macro SoC + LoB)** — apply structural separation around major infrastructure (DB, API, UI). Inside a single feature, keep code co-located; no extra interface/service/handler layers added purely out of layering habit.
+- **Abstraction timing (AHA + Rule of Three)** — accept duplication twice without guilt; abstract on the third occurrence. Let patterns stabilize before consolidating.
+- **Precedence** — where Open/Closed pulls toward speculative extension points, YAGNI wins: extend when the second real use case exists, not before.
 
 ## Security
 
