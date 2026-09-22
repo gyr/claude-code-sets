@@ -1,8 +1,6 @@
 ---
 name: caveman-micro
-description: Ultra-concise response mode that reduces token usage while maintaining technical accuracy. Use when user requests brief responses, caveman mode, or minimal verbosity.
-when_to_use: User asks for "caveman mode", "be concise", "brief responses", "cut the filler", or explicitly requests minimal verbosity.
-disable-model-invocation: false
+description: Ultra-concise response mode that reduces token usage while maintaining technical accuracy. Use this when the user asks for "caveman mode", "be concise", "brief responses", "cut the filler", or otherwise requests minimal verbosity.
 ---
 
 # Caveman Micro Mode
