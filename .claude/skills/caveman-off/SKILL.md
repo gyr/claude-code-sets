@@ -15,3 +15,6 @@ Return to normal response style:
 ---
 
 **Normal mode active.** Use `/caveman-on` to re-enable caveman mode.
+
+> Note: skills carry no session state. This file is a counter-instruction to
+> `/caveman-on`, effective only while both remain in context — not a switch.
