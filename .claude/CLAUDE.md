@@ -25,7 +25,7 @@ Python-first polyglot work with Claude Code.
 
 ## Core Principles
 
-1. **TDD** — Failing test first for new features and bug fixes. No production code without a failing test.
+1. **TDD** — Failing test first for features and bug fixes. Behavior-preserving changes (refactors, renames, annotations, dead code, docs) need no new test but must keep the existing ones green.
 2. **Simplicity (KISS · YAGNI · Worse is Better)** — Prefer simple over clever, and a working 80–90% solution today over a "perfect" design later. Build strictly for current requirements: no speculative features, parameters, or extension points. Remove complexity before adding features.
 3. **Evidence over claims** — Verify with tests/profiling/data. "Should work" not acceptable without proof.
 
