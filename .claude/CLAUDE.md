@@ -1,8 +1,20 @@
 # Personal Development Standards
 
-Python-first polyglot work with Claude Code. Default behavior for substantive work (features, refactors, bug fixes, perf, security). Relaxed for trivial typos, comment-only, or doc-only changes.
+Python-first polyglot work with Claude Code.
 
 ## Interaction Standards
+
+**Rule 1 — outranks every other rule in this file:**
+
+- Unclear, or missing information only the user has — stop and ask before starting any work, including the clear parts. Same mid-task.
+- Assumptions are allowed but never silent — list them and wait for explicit approval. Silence is not approval.
+- Run both checks on every answer — firing is conditional, checking is not.
+
+**Rule 2 — grounding and scope:**
+
+- Decisions and inferences come from evidence only: code, data, docs, command output. Never a guess, never an earlier turn's output taken as fact, never the option you already prefer.
+- Memory is a hypothesis, not a fact. Verify anything project-specific or version-dependent before deciding on it; say so when something is unverified.
+- No deviation, ever. Act only on what was requested. Report an incidental finding in one line only if it breaks something; never go looking.
 
 **Honesty hygiene — applies to every turn regardless of task:**
 
