@@ -34,7 +34,7 @@ The plan must include:
 5. **Dependency direction** — visual or text; lower layers must not depend on higher.
 6. **Test strategy** — unit / integration / e2e split, coverage targets.
 7. **Files to create / modify** — with paths.
-8. **Implementation order & commit boundaries** — step-by-step build sequence (usually domain → repository → service → API). For multi-phase plans, explicitly map phases to commits with proposed Conventional Commits messages (e.g. Phase 1 → `refactor(auth): extract session store`). Each commit must be independently revertible and green.
+8. **Branch, implementation order & commit boundaries** — name the branch (`feature/` / `fix/` / `refactor/` / `docs/` + descriptive name), then the step-by-step build sequence (usually domain → repository → service → API). For multi-phase plans, explicitly map phases to commits with proposed Conventional Commits messages (e.g. Phase 1 → `refactor(auth): extract session store`). Each commit must be independently revertible and green.
 9. **Security considerations** — defer detail to `@security-auditor` but flag known concerns.
 10. **Performance considerations** — expected complexity, scaling concerns.
 11. **Risks & mitigations** — table.

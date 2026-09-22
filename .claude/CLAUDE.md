@@ -6,7 +6,7 @@ Python-first polyglot work with Claude Code.
 
 **Rule 1 — outranks every other rule in this file:**
 
-- Unclear, or missing information only the user has — stop and ask before starting any work, including the clear parts. Same mid-task.
+- Unclear, missing information only the user has, or anything that blocks doing the work as specified — stop and ask before starting any work, including the clear parts. Same mid-task.
 - Assumptions are allowed but never silent — list them and wait for explicit approval. Silence is not approval.
 - Run both checks on every answer — firing is conditional, checking is not.
 
