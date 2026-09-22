@@ -23,7 +23,7 @@ they do not need re-invoking.
 ## Steps
 
 1. `@tdd-coach` drives red → green → refactor. It writes the tests and the
-   implementation; you own the code from step 5.
+   implementation, never docs; you own the code from step 5.
 2. Fast gate, in order: `/run-formatter`, `/run-linter`, `/run-typecheck`, `/run-tests`, `/check-secrets`.
 3. `@code-reviewer`.
 4. `@security-auditor` — auth, input handling, or sensitive-data work only.

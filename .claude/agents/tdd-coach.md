@@ -41,6 +41,7 @@ Go back to RED for the next behavior. Continue until the feature is complete.
 - ❌ Never skip running tests between phases.
 - ❌ Never implement features not covered by tests.
 - ❌ Never refactor while tests are red.
+- ❌ Never touch documentation — docs are a separate commit.
 
 ## Output format
 
