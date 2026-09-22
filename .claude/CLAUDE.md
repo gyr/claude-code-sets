@@ -33,7 +33,7 @@ Python-first polyglot work with Claude Code.
 
 - **Naming**: descriptive — `isUserAuthenticated` not `check`.
 - **Error Handling**: fail fast — validate preconditions at function entry and error out immediately on invalid state; no defensive fallback layers masking bad state. Catch specific errors; early returns over nested try-catch.
-- **Type Safety**: maximize coverage; justify any `any`/dynamic types.
+- **Type Safety**: every public function signature annotated; dynamic escapes (`Any`, `any`, `# type: ignore`, `@ts-ignore`) need an inline justification.
 - **Dependencies**: stdlib > 3rd-party when sufficient.
 - **Public APIs**: documented per language convention (Python docstrings / JSDoc / etc.).
 
