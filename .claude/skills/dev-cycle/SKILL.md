@@ -1,12 +1,13 @@
 ---
 name: dev-cycle
-description: Drives one code commit from failing test to handed-over commit message — TDD, gate skills, review agents, full gate, staged diff. Use when starting or continuing a feature, bug fix, or refactor. Governs every code commit in a multi-commit plan.
+description: Drives one code commit from failing test to handed-over commit message — TDD, gate skills, review agents, full gate, staged diff. Use when starting or continuing a feature, bug fix, or refactor. In a multi-commit plan, invoke once per commit in a fresh session: `/dev-cycle <plan-file> <commit-id>`.
 ---
 
 # Development cycle
 
-One pass per commit. In a multi-commit plan these rules govern each commit in turn;
-they do not need re-invoking.
+One pass per commit. In a multi-commit plan, one fresh session per commit, started with
+`/dev-cycle <plan-file> <commit-id>`. No arguments means no plan: skip the "With a plan"
+section and never look for a plan file.
 
 ## Standing rules
 
@@ -19,6 +20,18 @@ they do not need re-invoking.
 - **Rejected findings are reported.** Apply the findings you judge valid; for the rest, state the finding and why it was not applied.
 - **A finding you cannot apply within this pass stops the cycle.** Findings that change the commit's shape — split it, reorder it — are not yours to resolve. State the finding and ask.
 - **Never run `git commit`.** Stage the change, hand over the message, wait.
+- **The plan decides, not you.** With a plan, the commit's scope, files and message come from its section. Where the plan says which agents review the commit, that replaces steps 3–4; steps 2 and 6 always run. Do not re-plan or reorder; if the commit cannot be built as planned, stop and ask.
+- **The plan file is read-only.** Never edit it, stage it, or commit it.
+
+## With a plan
+
+Before step 1:
+- Run `git check-ignore -q <plan-file>`. If it is not ignored, stop and report. Do not edit `.gitignore`.
+- Read the section for `<commit-id>`. Confirm in `git log` that this commit's message is not there yet and, unless it is the plan's first commit, that the previous commit's message is. If either check fails, stop and report.
+
+After step 7:
+- Print the prompt for the next session: `/docs-commit <plan-file> <next-id>` if the next commit's message has type `docs`, otherwise `/dev-cycle <plan-file> <next-id>`. Tell the user to commit, run `/clear`, and paste it.
+- If this was the plan's last commit, print no prompt. Ask whether to delete the plan file; never delete it without a yes.
 
 ## Steps
 
@@ -34,4 +47,4 @@ they do not need re-invoking.
 6. Full gate: everything from step 2, plus `/check-coverage`, plus `/check-deps-cve` if dependencies changed.
 7. `/get-diff`, stage, hand over the commit message.
 
-Once the plan's code commits are done, run `/docs-commit` if the cycle left any doc wrong or incomplete.
+Without a plan, run `/docs-commit` afterwards if the change left any doc wrong or incomplete.
