@@ -39,4 +39,5 @@ After step 5:
    describes — signatures, examples, described behavior. `@code-reviewer` only
    when the commit adds a new document (ADR, guide, migration doc).
 4. Apply valid findings. Behavior-preserving by definition — no tests involved.
-5. `/get-diff`, stage, hand over the commit message.
+5. `/get-diff`, stage, hand over the commit message. Stage the changed docs by path,
+   never `git add -A`.

@@ -47,6 +47,8 @@ After step 7:
    - Behavior-preserving changes: no new test.
    - Missing-test findings: add the test. If it fails, that is a bug — fix it here.
 6. Full gate: everything from step 2, plus `/check-coverage`, plus `/check-deps-cve` if dependencies changed.
-7. `/get-diff`, stage, hand over the commit message.
+7. `/get-diff`, stage, hand over the commit message. Stage the commit's files by path,
+   never `git add -A`. List any untracked files the gates left behind (`.coverage`,
+   caches) and ask whether to delete them; never delete them unasked.
 
 Without a plan, run `/docs-commit` afterwards if the change left any doc wrong or incomplete.
