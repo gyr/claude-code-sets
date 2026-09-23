@@ -56,7 +56,7 @@ Agents are full personas with **isolated context** and **summary return**. Use t
 
 | Agent | Role | When to invoke |
 |:------|:-----|:---------------|
-| `@architect` | Senior Software Architect — read-only, produces `IMPLEMENTATION_PLAN.md` with SOLID contracts, commit boundaries, doc impact | Major features, refactors, anything multi-phase — **before** writing code |
+| `@architect` | Senior Software Architect — read-only, returns the plan as a message (no file) with SOLID contracts, commit boundaries, doc impact | Major features, refactors, anything multi-phase — **before** writing code |
 | `@tdd-coach` | TDD enforcer driving strict Red-Green-Refactor cycles | New features, bug fixes |
 | `@code-reviewer` | Senior Staff Engineer reviewing the diff with fresh eyes — logic, readability, security, perf, tests, commit hygiene | After significant changes, before commits |
 | `@security-auditor` | Cyber Security Specialist auditing against OWASP Top 10 | Auth, input handling, sensitive-data work, security-impacting diffs |
@@ -172,7 +172,7 @@ git add ... && git commit -m "feat(auth): add password strength validation"
 
 ```
 @architect plan the migration from sessions to JWT
-        # produces IMPLEMENTATION_PLAN.md with phases + commit boundaries
+        # returns the plan with phases + commit boundaries (no file written)
 @tdd-coach implement phase 1
 @security-auditor audit phase 1
 @code-reviewer
