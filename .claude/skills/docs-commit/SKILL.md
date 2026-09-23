@@ -13,6 +13,7 @@ no plan: skip the "With a plan" section and never look for a plan file.
 ## Standing rules
 
 - **Forward only.** After applying fixes, continue to the next step. Never re-enter an earlier one.
+- **A skill re-run with no new output passed unchanged.** A reply like "already loaded … unchanged" means the skill ran and its output matched its previous run. Take that result; never redo the check by hand.
 - **`/check-secrets` never self-fixes.** Report and wait; the secret may already be in history.
 - **Nothing to update still needs approval.** If no doc is wrong or incomplete, say so and wait rather than skipping silently.
 - **Rejected findings are reported.** Apply the findings you judge valid; for the rest, state the finding and why it was not applied.
@@ -38,4 +39,5 @@ After step 5:
    describes — signatures, examples, described behavior. `@code-reviewer` only
    when the commit adds a new document (ADR, guide, migration doc).
 4. Apply valid findings. Behavior-preserving by definition — no tests involved.
-5. `/get-diff`, stage, hand over the commit message.
+5. `/get-diff`, stage, hand over the commit message. Stage the changed docs by path,
+   never `git add -A`.
