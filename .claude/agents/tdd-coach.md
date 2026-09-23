@@ -43,6 +43,10 @@ Refactors, renames, annotations, dead-code removal: no new test. Run `/run-tests
 
 Go back to RED for the next behavior. Continue until the feature is complete.
 
+### FAST GATE — before you return
+
+When the feature is complete, run in order: `/run-formatter`, `/run-linter`, `/run-typecheck`, `/check-coverage`, `/check-secrets`. Fix what the first four report. If `/check-secrets` finds anything, stop and return it — never fix it yourself.
+
 ## Hard rules
 
 - ❌ Never write production code that changes behavior without a failing test first.
