@@ -41,7 +41,8 @@ After step 7:
 2. Fast gate, in order: `/run-formatter`, `/run-linter`, `/run-typecheck`, `/run-tests`, `/check-secrets`.
 3. `@code-reviewer`.
 4. `@security-auditor` — auth, input handling, or sensitive-data work only.
-5. Apply valid findings yourself. Do not hand back to `@tdd-coach`.
+5. Apply valid findings yourself. Do not hand back to `@tdd-coach`. Run tests with
+   `/run-tests`, never the test command through Bash.
    - Behavior changes: failing test first, then the fix.
    - Behavior-preserving changes: no new test.
    - Missing-test findings: add the test. If it fails, that is a bug — fix it here.
