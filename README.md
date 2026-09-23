@@ -48,7 +48,7 @@ Loaded into every session. Defines the rules the assistant operates under withou
 - **Security** — OWASP Top 10 hygiene baseline.
 - **Git workflow** — Conventional Commits, one logical change per commit, bisect-friendly history, pre-commit checklist.
 - **Performance** — no optimization without profiling.
-- **Agents & skills registry** — when to invoke each.
+- **Agents & skills** — `@code-reviewer` over the bundled `/code-review` for deep review. When to invoke each agent lives in its `description:`, not here.
 
 ### 2. Five specialist agents (`.claude/agents/`)
 
@@ -216,7 +216,7 @@ You are <persona>. <Single-sentence mandate>.
 <What the agent must justify before declaring done>
 ```
 
-Register it in `.claude/CLAUDE.md` under **Required Agents** so the convention spreads.
+No registration needed: Claude Code discovers the file, and the `description:` is what Claude reads to decide when to delegate. Put the trigger there; add "Use proactively" to encourage automatic delegation.
 
 ### Add a skill
 

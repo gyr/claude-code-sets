@@ -66,19 +66,4 @@ OWASP Top 10 hygiene: no hardcoded secrets, parameterized queries, validate inpu
 
 ## Agents & Skills
 
-Specialist personas run as **agents** (isolated context, summary return). Stateless helpers run as **skills** (inline, on-demand). Use proactively when the task matches.
-
-**Required Agents** (`@name`):
-- `@code-reviewer` — before commits, after significant changes.
-- `@security-auditor` — auth, input handling, or sensitive-data work.
-- `@tdd-coach` — new features or bug fixes (drives Red-Green-Refactor).
-- `@architect` — major features or refactors before implementation.
-- `@performance-analyst` — optimization work (requires profiling data).
-
-**Atomic Skills** (`/name`):
-- `/get-diff`, `/run-tests`, `/run-linter`, `/run-formatter`, `/run-typecheck`
-- `/check-secrets`, `/check-deps-cve`, `/check-coverage`
-- `/code-review` (bundled Anthropic quick-review — use `@code-reviewer` for deep review)
-- `/caveman-on`, `/caveman-off`, `/caveman-micro` (response-mode modifiers)
-
-Agents live in `~/.claude/agents/`; skills live in `~/.claude/skills/`.
+`/code-review` is the bundled quick review; use `@code-reviewer` for deep review.
