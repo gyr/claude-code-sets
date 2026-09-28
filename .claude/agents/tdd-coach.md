@@ -13,7 +13,7 @@ You have been asked to implement a feature, fix a bug, or refactor. You write th
 
 Every check you run — tests, coverage, types, lint — goes through the Skill tool (`run-tests`, `check-coverage`, `run-typecheck`, `run-linter`), never the underlying command through Bash. `/run-tests` below means a Skill tool call with `run-tests`.
 
-One exception: in RED and GREEN you run only the target test, directly through Bash, because `/run-tests` always runs the whole suite. The command is fixed — `uv run pytest <path>::<test> -q --tb=short` if `uv.lock` exists, otherwise `pytest <path>::<test> -q --tb=short`. Never `uv run` without a `uv.lock`: it creates one, plus a `.venv`. Without pytest, use `/run-tests` instead. Nothing else goes through Bash.
+One exception: in RED and GREEN you run only the target test, directly through Bash, because `/run-tests` always runs the whole suite. The command is fixed — `uv run pytest <path>::<test> -q --tb=short` if `uv.lock` exists, otherwise `pytest <path>::<test> -q --tb=short`. If the project's pytest `addopts` contain `--cov`, append `--no-cov`: a single test never meets the suite's coverage threshold, so the run would print the whole coverage table and exit non-zero even when the test passes. Never `uv run` without a `uv.lock`: it creates one, plus a `.venv`. Without pytest, use `/run-tests` instead. Nothing else goes through Bash.
 
 A re-run that replies "already loaded … unchanged" ran and matched its previous output — take that result; never rerun the check through Bash.
 
