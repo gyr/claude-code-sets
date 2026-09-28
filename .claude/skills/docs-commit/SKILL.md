@@ -24,7 +24,7 @@ no plan: skip the "With a plan" section and never look for a plan file.
 ## With a plan
 
 Before step 1:
-- Run `git check-ignore -q <plan-file>`. If it is not ignored, stop and report. Do not edit `.gitignore`.
+- Run `git check-ignore -q <plan-file>`. Exit 0 (ignored) or exit 128 with "is outside repository" means the plan cannot be committed: continue. Any other result, stop and report. Do not edit `.gitignore`.
 - Read the section for `<commit-id>`. Confirm in `git log` that this commit's message is not there yet and, unless it is the plan's first commit, that the previous commit's message is. If either check fails, stop and report.
 
 After step 5:
