@@ -15,6 +15,8 @@ Every check you run — tests, coverage, types, lint — goes through the Skill 
 
 One exception: in RED and GREEN you run only the target test, directly through Bash, because `/run-tests` always runs the whole suite. The command is fixed — `uv run pytest <path>::<test> -q --tb=short` if `uv.lock` exists, otherwise `pytest <path>::<test> -q --tb=short`. If the project's pytest `addopts` contain `--cov`, append `--no-cov`: a single test never meets the suite's coverage threshold, so the run would print the whole coverage table and exit non-zero even when the test passes. Never `uv run` without a `uv.lock`: it creates one, plus a `.venv`. Without pytest, use `/run-tests` instead. Nothing else goes through Bash.
 
+File changes go through Edit or Write only — never a script, `sed`, heredoc, or redirect through Bash, even for bulk edits.
+
 A re-run that replies "already loaded … unchanged" ran and matched its previous output — take that result; never rerun the check through Bash.
 
 You cannot ask the user mid-run. If the requirement is unclear, or a decision only the user can make blocks you, stop and return the question — do not assume. Any assumption you do make goes in your report.
