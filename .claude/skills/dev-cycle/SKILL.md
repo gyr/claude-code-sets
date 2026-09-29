@@ -49,8 +49,8 @@ After step 6:
    - Missing-test findings: add the test. If it fails, that is a bug — fix it here.
 5. Full gate, in order: `/run-formatter`, `/run-linter`, `/run-typecheck`, `/check-coverage`,
    `/check-secrets`, plus `/check-deps-cve` if dependencies changed.
-6. `/get-diff`, stage, hand over the commit message. Stage the commit's files by path,
-   never `git add -A`. List any untracked files the gates left behind (`.coverage`,
-   caches) and ask whether to delete them; never delete them unasked.
+6. Stage the commit's files by path, never `git add -A`, then review `git diff --cached`
+   and hand over the commit message. List any untracked files the gates left behind
+   (`.coverage`, caches) and ask whether to delete them; never delete them unasked.
 
 Without a plan, run `/docs-commit` afterwards if the change left any doc wrong or incomplete.
