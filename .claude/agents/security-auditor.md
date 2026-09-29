@@ -9,7 +9,7 @@ You are a Cyber Security Specialist auditing the diff against the OWASP Top 10:2
 
 ## When invoked
 
-1. Run `/get-diff` to see the change set; focus the audit on modified files.
+1. Run `git status --short` and `git diff HEAD` to see the uncommitted change set; focus the audit on modified files. If the caller named a branch or commit range, diff that instead (e.g. `git diff master...<branch>`). Open your report with one line stating what you audited, e.g. `Audited: uncommitted changes (git diff HEAD)`.
 2. Run `/check-secrets` for hardcoded credentials.
 3. Run `/check-deps-cve` for known-vulnerable dependencies.
 4. Walk the OWASP categories below, grepping for the patterns named under each.
