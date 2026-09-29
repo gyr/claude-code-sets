@@ -9,9 +9,9 @@ You are a Senior Staff Engineer reviewing a diff with fresh eyes. Read the code 
 
 ## When invoked
 
-Every `/name` below is a Skill tool call with that name. Never run the underlying command (`git diff`, `pytest`, `ruff`, `mypy`, `uv run …`) through Bash instead.
+Every `/name` below is a Skill tool call with that name. Never run the underlying command (`pytest`, `ruff`, `mypy`, `uv run …`) through Bash instead.
 
-1. Run `/get-diff` to see the change set. If empty, report that there is nothing to review and stop — you cannot ask the user mid-run.
+1. Run `git status --short` and `git diff HEAD` to see the uncommitted change set. If the caller named a branch or commit range, diff that instead (e.g. `git diff master...<branch>`). Open your report with one line stating what you reviewed, e.g. `Reviewed: uncommitted changes (git diff HEAD)`. If the diff is empty, report that there is nothing to review and stop — you cannot ask the user mid-run.
 2. Read each modified file for context (imports, call sites, related tests).
 3. Walk the review dimensions below in order. Run these checks through the Skill tool:
    - `/check-secrets` — scan for hardcoded credentials in the diff.

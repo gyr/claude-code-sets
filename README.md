@@ -20,7 +20,6 @@ Everything lives under `.claude/` and is committed to the repo so the same stand
 │   ├── security-auditor.md
 │   └── tdd-coach.md
 └── skills/                # Atomic helpers — invoked via /name
-    ├── get-diff/SKILL.md
     ├── run-tests/SKILL.md
     ├── run-linter/SKILL.md
     ├── run-formatter/SKILL.md
@@ -70,7 +69,6 @@ Skills are stateless single-purpose helpers run **inline** in the main session. 
 
 | Skill | What it does |
 |:------|:-------------|
-| `/get-diff` | Diff vs `main` (or `origin/main`) + working-tree status |
 | `/run-tests` | Project test suite — `pytest` → `npm test` → `cargo test` → `go test` (auto-detected) |
 | `/run-linter` | Lint diagnostics — `ruff check` → `flake8` → `eslint` → `clippy` → `go vet` |
 | `/run-formatter` | Apply canonical formatting — `ruff format` → `black` → `prettier` → `gofmt` → `rustfmt` (modifies files) |
@@ -102,13 +100,13 @@ Both surfaces are loaded on demand; the difference is **context isolation** and 
 | Context | Separate window, returns a summary | Inline in main session |
 | Work shape | Multi-step reasoning, judgment calls | Single deterministic action |
 | Typical size | Hundreds of lines of instruction + rigor clauses | A single Bash command + framing |
-| Examples | "Review this diff end-to-end", "Plan the auth rewrite" | "Run the linter", "Show the diff" |
+| Examples | "Review this diff end-to-end", "Plan the auth rewrite" | "Run the linter", "Scan for secrets" |
 
 Rule of thumb: if the work needs **reasoning across files** or a **specific persona**, use an agent. If the work is a **single check or command**, use a skill.
 
 ### How agents use skills
 
-Agents compose atomic skills inside their workflows. For example, `@code-reviewer` runs `/get-diff` first, then `/check-secrets`, `/run-tests`, `/run-linter`, `/run-typecheck`, `/check-coverage` as part of its review pass. You don't run those by hand during a review — the agent does, and you read the consolidated finding list.
+Agents compose atomic skills inside their workflows. For example, `@code-reviewer` reads the diff with git first, then runs `/check-secrets`, `/run-tests`, `/run-linter`, `/run-typecheck`, `/check-coverage` as part of its review pass. You don't run those by hand during a review — the agent does, and you read the consolidated finding list.
 
 ### Built-in `/code-review` vs `@code-reviewer`
 
@@ -145,7 +143,6 @@ The agent runs in its own context and reports back a summary — your main conte
 ### 3. Invoke a skill for an atomic action
 
 ```
-/get-diff
 /run-tests
 /run-linter
 /check-secrets
