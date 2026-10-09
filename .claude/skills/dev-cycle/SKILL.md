@@ -37,7 +37,7 @@ After step 6:
 ## Steps
 
 1. `@tdd-coach` drives red → green → refactor. It writes the tests and the
-   implementation, never docs, and ends with the fast gate: `/run-formatter`,
+   implementation, never docs, and ends with the fast gate: `/run-formatter <files>`,
    `/run-linter`, `/run-typecheck`, `/check-coverage`, `/check-secrets`. You own the
    code from step 4.
 2. `@code-reviewer`.
@@ -47,8 +47,10 @@ After step 6:
    - Behavior changes: failing test first, then the fix.
    - Behavior-preserving changes: no new test.
    - Missing-test findings: add the test. If it fails, that is a bug — fix it here.
-5. Full gate, in order: `/run-formatter`, `/run-linter`, `/run-typecheck`, `/check-coverage`,
-   `/check-secrets`, plus `/check-deps-cve` if dependencies changed.
+5. Full gate, in order: `/run-formatter <files>`, `/run-linter`, `/run-typecheck`, `/check-coverage`,
+   `/check-secrets`, plus `/check-deps-cve` if dependencies changed. `<files>` are the
+   commit's files by path — the plan section's list, or without a plan the files this
+   cycle created or changed. Never `.` or a directory.
 6. Stage the commit's files by path, never `git add -A`, then review `git diff --cached`
    and hand over the commit message. List any untracked files the gates left behind
    (`.coverage`, caches) and ask whether to delete them; never delete them unasked.
