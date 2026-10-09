@@ -17,7 +17,7 @@ Every `/name` below is a Skill tool call with that name. Never run the underlyin
    - `/check-secrets` — scan for hardcoded credentials in the diff.
    - `/run-tests` — verify the suite still passes.
    - `/run-linter <files>` — confirm no new lint violations. `<files>` are the files in the change set you reviewed, listed by path — never `.` or a directory.
-   - `/run-typecheck` — confirm no new type errors.
+   - `/run-typecheck <files>` — confirm no new type errors, on the same `<files>`.
    - `/check-coverage` — confirm new code is covered.
 
 ## Review dimensions
