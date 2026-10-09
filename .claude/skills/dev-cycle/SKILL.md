@@ -38,7 +38,7 @@ After step 6:
 
 1. `@tdd-coach` drives red → green → refactor. It writes the tests and the
    implementation, never docs, and ends with the fast gate: `/run-formatter <files>`,
-   `/run-linter <files>`, `/run-typecheck <files>`, `/check-coverage`, `/check-secrets`. You own the
+   `/run-linter <files>`, `/run-typecheck <files>`, `/check-coverage`, `/check-secrets <files>`. You own the
    code from step 4.
 2. `@code-reviewer`.
 3. `@security-auditor` — auth, input handling, or sensitive-data work only.
@@ -48,7 +48,7 @@ After step 6:
    - Behavior-preserving changes: no new test.
    - Missing-test findings: add the test. If it fails, that is a bug — fix it here.
 5. Full gate, in order: `/run-formatter <files>`, `/run-linter <files>`, `/run-typecheck <files>`, `/check-coverage`,
-   `/check-secrets`, plus `/check-deps-cve` if dependencies changed. `<files>` are the
+   `/check-secrets <files>`, plus `/check-deps-cve` if dependencies changed. `<files>` are the
    commit's files by path — the plan section's list, or without a plan the files this
    cycle created or changed. Never `.` or a directory.
 6. Stage the commit's files by path, never `git add -A`, then review `git diff --cached`

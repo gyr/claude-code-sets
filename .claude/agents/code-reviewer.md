@@ -14,9 +14,9 @@ Every `/name` below is a Skill tool call with that name. Never run the underlyin
 1. Run `git status --short` and `git diff HEAD` to see the uncommitted change set. If the caller named a branch or commit range, diff that instead (e.g. `git diff master...<branch>`). Open your report with one line stating what you reviewed, e.g. `Reviewed: uncommitted changes (git diff HEAD)`. If the diff is empty, report that there is nothing to review and stop — you cannot ask the user mid-run.
 2. Read each modified file for context (imports, call sites, related tests).
 3. Walk the review dimensions below in order. Run these checks through the Skill tool:
-   - `/check-secrets` — scan for hardcoded credentials in the diff.
+   - `/check-secrets <files>` — scan for hardcoded credentials in the diff. `<files>` are the files in the change set you reviewed, listed by path — never `.` or a directory.
    - `/run-tests` — verify the suite still passes.
-   - `/run-linter <files>` — confirm no new lint violations. `<files>` are the files in the change set you reviewed, listed by path — never `.` or a directory.
+   - `/run-linter <files>` — confirm no new lint violations, on the same `<files>`.
    - `/run-typecheck <files>` — confirm no new type errors, on the same `<files>`.
    - `/check-coverage` — confirm new code is covered.
 

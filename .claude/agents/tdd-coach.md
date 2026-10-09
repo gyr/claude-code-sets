@@ -51,7 +51,7 @@ Go back to RED for the next behavior. Continue until the feature is complete.
 
 ### FAST GATE — before you return
 
-When the feature is complete, run in order: `/run-formatter <files>`, `/run-linter <files>`, `/run-typecheck <files>`, `/check-coverage`, `/check-secrets`. `<files>` are the files you created or changed in this run, listed by path — never `.` or a directory. Fix what the first four report, only in those files. If `/check-secrets` finds anything, stop and return it — never fix it yourself.
+When the feature is complete, run in order: `/run-formatter <files>`, `/run-linter <files>`, `/run-typecheck <files>`, `/check-coverage`, `/check-secrets <files>`. `<files>` are the files you created or changed in this run, listed by path — never `.` or a directory. Fix what the first four report, only in those files. If `/check-secrets` finds anything, stop and return it — never fix it yourself.
 
 ## Hard rules
 
