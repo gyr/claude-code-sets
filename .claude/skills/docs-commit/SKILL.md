@@ -34,7 +34,8 @@ After step 5:
 ## Steps
 
 1. Apply the doc changes directly. No agent.
-2. `/check-secrets`. The other gate skills have nothing to act on in markdown.
+2. `/check-secrets <files>`, with the changed docs by path — never `.` or a directory.
+   The other gate skills have nothing to act on in markdown.
 3. Verify inline: check every claim the changed text makes against the code it
    describes — signatures, examples, described behavior. `@code-reviewer` only
    when the commit adds a new document (ADR, guide, migration doc).
